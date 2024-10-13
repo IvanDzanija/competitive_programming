@@ -1,16 +1,14 @@
 #include <algorithm>
 #include <assert.h>
 #include <bitset>
+#include <cmath>
 #include <deque>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
 #include <functional>
 #include <iostream>
 #include <iterator>
 #include <limits>
 #include <list>
 #include <map>
-#include <math.h>
 #include <numeric>
 #include <queue>
 #include <set>
@@ -26,11 +24,9 @@
 #define INF (int)1e9
 
 using ll = int64_t;
-using namespace std;
-using namespace __gnu_pbds;
 
 int main(void) {
-	ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	std::cout << 0 << std::endl;
 
 	return 0;

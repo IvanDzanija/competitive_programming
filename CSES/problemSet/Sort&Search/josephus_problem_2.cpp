@@ -12,7 +12,5 @@ int main(void) {
 	int n, k;
 	std::cin >> n >> k;
 
-	std::vector<std::vector<ll>> d2;
-
 	return 0;
 }
