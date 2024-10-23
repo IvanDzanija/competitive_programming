@@ -3,6 +3,7 @@
 #include <ext/pb_ds/tree_policy.hpp>
 
 #define INF (int)1e9
+#define all(x) (x).begin(), (x).end()
 
 using ll = int64_t;
 using namespace __gnu_pbds;
