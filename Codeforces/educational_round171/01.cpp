@@ -22,29 +22,9 @@ int main(void) {
 	while (t--) {
 		ll x, y, z;
 		cin >> x >> y >> z;
-		bool f = false;
-		for (ll i = 0; i <= x && !f; ++i) {
-			for (ll j = 0; j <= y && !f; ++j) {
-				for (ll k = 0; k <= x && !f; ++k) {
-					for (ll l = 0; l <= y && !f; ++l) {
-						if (k == i && l == j) {
-							continue;
-						}
-						if (sqrt(pow((i - k), 2) + pow((l - j), 2)) < z) {
-							continue;
-						} else {
-							if (k <= y && l <= x) {
-								f = true;
-								cout << i << ' ' << j << ' ' << k << ' ' << l
-									 << endl;
-								cout << i << ' ' << k << ' ' << l << ' ' << j
-									 << endl;
-							}
-						}
-					}
-				}
-			}
-		}
+		ll a = min(x, y);
+		cout << "0 0 " << a << ' ' << a << endl;
+		cout << "0 " << a << ' ' << a << " 0" << endl;
 	}
 
 	return 0;
