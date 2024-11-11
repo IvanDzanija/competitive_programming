@@ -17,6 +17,28 @@ using indexed_set = tree<T, null_type, std::less<T>, rb_tree_tag,
 int count_bits(ll number) { return (int)log2(number) + 1; }
 int main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
+	ll t;
+	cin >> t;
+	while (t--) {
+		ll n, b, c;
+		cin >> n >> b >> c;
+		if (b == 0) {
+			if (c >= n) {
+				cout << n << endl;
+			} else if (c <= n - 3) {
+				cout << -1 << endl;
+			} else {
+				cout << n - 1 << endl;
+			}
 
+		} else {
+			if (c >= n) {
+				cout << n << endl;
+			} else {
+				cout << n - max(0ll, 1 + (n - c - 1) / b) << endl;
+				;
+			}
+		}
+	}
 	return 0;
 }
