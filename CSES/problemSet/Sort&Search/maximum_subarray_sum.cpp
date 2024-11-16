@@ -9,7 +9,6 @@ using ll = int64_t;
 int main(void) {
 	ll n;
 	std::cin >> n;
-	std::vector<ll> sums;
 	ll ans = LLONG_MIN;
 	ll hi = 0;
 	for (ll i = 0; i < n; ++i) {
