@@ -20,16 +20,40 @@ int main(void) {
 	ll n, k;
 	cin >> n >> k;
 	vector<ll> a(n, 0);
+	ll max = 0;
+	ll sum = 0;
 	for (ll i = 0; i < n; ++i) {
-		ll x;
-		cin >> x;
-		a[i] = x;
+		cin >> a[i];
+		if (a[i] > max) {
+			max = a[i];
+		}
+		sum += a[i];
 	}
-	if (k >= n) {
-		sort(all(a));
-		cout << a[a.size() - 1] << endl;
-	} else {
+	ll lo = max;
+	ll hi = sum;
+	ll ans = 0;
+	while (hi >= lo) {
+		ll mid = (hi + lo) / 2;
+		ll r = k;
+		ll z = 0;
+		for (ll i = 0; i < n && r > 0; ++i) {
+			if (mid == 7) {
+			}
+			if (a[i] + z <= mid) {
+				z += a[i];
+			} else if (a[i] + z > mid && r > 0) {
+				z = a[i];
+				--r;
+			}
+		}
+		if (r > 0) {
+			ans = mid;
+			hi = mid - 1;
+		} else {
+			lo = mid + 1;
+		}
 	}
+	cout << ans << endl;
 
 	return 0;
 }
