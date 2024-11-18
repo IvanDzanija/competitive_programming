@@ -4,35 +4,42 @@
 
 #define INF (int)1e9
 #define all(x) (x).begin(), (x).end()
-#define MOD (ll)(1e9 + 7)
+#define MOD (int)(1e9 + 7)
 
 using ll = int64_t;
 using ull = uint64_t;
 using ld = long double;
-const ll MAX = 1e6 + 6;
-ll dp[MAX][2];
 using namespace __gnu_pbds;
 using namespace std;
 template <typename T>
 using indexed_set = tree<T, null_type, std::less<T>, rb_tree_tag,
 						 tree_order_statistics_node_update>;
 int count_bits(ll number) { return (int)log2(number) + 1; }
+
 int main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
-	ll t;
-	cin >> t;
-
-	dp[0][0] = 1;
-	dp[0][1] = 1;
-	for (ll i = 1; i < MAX; ++i) {
-		dp[i][0] = (dp[i - 1][0] * 2 % MOD + dp[i - 1][1]) % MOD;
-		dp[i][1] = (dp[i - 1][0] + dp[i - 1][1] * 4 % MOD) % MOD;
+	ll a, b;
+	cin >> a >> b;
+	ll dp[a + 1][b + 1];
+	for (ll i = 1; i <= a; ++i) {
+		for (ll j = 1; j <= b; ++j) {
+			if (i == j) {
+				dp[i][j] = 0;
+				continue;
+			}
+			dp[i][j] = INF;
+		}
 	}
-	while (t--) {
-		ll n;
-		cin >> n;
-		cout << (dp[n - 1][0] + dp[n - 1][1]) % MOD << endl;
+	for (ll i = 1; i <= a; ++i) {
+		for (ll j = 1; j <= b; ++j) {
+			for (ll k = 1; k < i; ++k) {
+				dp[i][j] = min(dp[i][j], dp[i - k][j] + dp[k][j] + 1);
+			}
+			for (ll k = 1; k < j; ++k) {
+				dp[i][j] = min(dp[i][j], dp[i][j - k] + dp[i][k] + 1);
+			}
+		}
 	}
-
+	cout << dp[a][b] << endl;
 	return 0;
 }
