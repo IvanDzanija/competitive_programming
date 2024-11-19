@@ -30,8 +30,6 @@ def part3(a):
 			ans += part1(s) + 2
 		elif (len(s) == 3):
 			ans += part1(s) + 6
-		# print(s)
-		# print(ans)
 	return ans
 
 
