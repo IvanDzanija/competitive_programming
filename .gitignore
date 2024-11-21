@@ -2,3 +2,5 @@
 .swp
 /ext
 *.in
+.mypy_cache
+.ropeproject

@@ -11,7 +11,9 @@ def part1(a):
 
 def part2(a):
 	ans = 0
+
 	for i in range(0,len(a),2):
+	    print(i)
 		s = a[i: i + 2]
 		if 'x' in s:
 			ans += part1(s)
