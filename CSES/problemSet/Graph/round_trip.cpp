@@ -15,12 +15,11 @@ template <typename T>
 using indexed_set = tree<T, null_type, std::less<T>, rb_tree_tag,
 						 tree_order_statistics_node_update>;
 int count_bits(ll number) { return (int)log2(number) + 1; }
-vector<ll> vis;
+vector<set<ll>> grid(1e5 + 5, set<ll>());
 int main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	ll n, m;
 	cin >> n >> m;
-	map<ll, set<ll>> grid;
 	for (ll i = 0; i < m; ++i) {
 		ll x, y;
 		cin >> x >> y;
