@@ -68,6 +68,7 @@ def main():
     # print(part1(a[0].split(','),a[1].split(' ')))
     # print(part2(a[0].split(","), a[1:]))
     # print(part3(a[0].split(","), a[1:]))
+    return 0
 
 
 if __name__ == "__main__":
