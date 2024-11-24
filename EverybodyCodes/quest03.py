@@ -89,7 +89,7 @@ def main():
         NG.append(ng)
     NG.append(["."] * (C + 2))
     # print(part1(NG, R, C))
-    # part2 is same and part1 just bigger grid
+    # part2 is the same as part1 just bigger grid
     # print(part3(NG, R, C))
     return 0
 
