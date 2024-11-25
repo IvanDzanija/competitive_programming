@@ -26,7 +26,7 @@ def main():
     G = list(map(int, G))
     # print(part1(G))
     # part2 is the same as part1 just bigger input
-    print(part3(G))
+    # print(part3(G))
     return 0
 
 
