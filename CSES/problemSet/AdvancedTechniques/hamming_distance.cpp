@@ -16,8 +16,15 @@ using indexed_set = tree<T, null_type, std::less<T>, rb_tree_tag,
 						 tree_order_statistics_node_update>;
 int count_bits(ll number) { return (int)log2(number) + 1; }
 
+// equivalent to bitset<32>.count()
 int hamming(bitset<32> a, bitset<32> b) {
 	return __builtin_popcount(a.to_ulong() ^ b.to_ulong());
+}
+// this is the fastest solution
+int BitCount(int u) {
+	unsigned int uCount;
+	uCount = u - ((u >> 1) & 033333333333) - ((u >> 2) & 011111111111);
+	return ((uCount + (uCount >> 3)) & 030707070707) % 63;
 }
 int main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
@@ -33,7 +40,7 @@ int main(void) {
 	ll ans = INF;
 	for (ll i = 0; i < n; ++i) {
 		for (ll j = i + 1; j < n; ++j) {
-			ll curr = hamming(a[i], a[j]);
+			ll curr = BitCount(a[i].to_ulong() ^ a[j].to_ulong());
 			if (curr < ans) {
 				ans = curr;
 			}
