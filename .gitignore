@@ -4,3 +4,4 @@
 *.in
 .mypy_cache
 .ropeproject
+.xcodeproj
