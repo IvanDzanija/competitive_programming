@@ -31,6 +31,8 @@ struct custom_hash {
 };
 
 ll p1(vector<ll> a, vector<ll> b) {
+	sort(all(a));
+	sort(all(b));
 	ll ans = 0;
 	ll n = (ll)a.size();
 	for (ll i = 0; i < n; ++i) {
@@ -74,8 +76,7 @@ int main(void) {
 		line = line.substr(line.find(' ') + 1);
 		b.push_back(stoll(line));
 	}
-	sort(all(a));
-	sort(all(b));
+
 	cout << p1(a, b) << endl;
 	cout << p2(a, b) << endl;
 	return 0;
