@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <queue>
 
 #define INF (int)1e9
 #define all(x) (x).begin(), (x).end()
@@ -30,81 +29,57 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
+const int maxN = 10e5 + 5;
+vector<int> links(maxN, 0);
+vector<int> sizes(maxN, 1);
+
+int find(int a) {
+	while (a != links[a]) {
+		a = links[a];
+	}
+	return a;
+}
+bool same(int a, int b) { return find(a) == find(b); }
+
+void unite(int a, int b) {
+	a = find(a);
+	b = find(b);
+	if (a == b) {
+		return;
+	}
+	if (sizes[a] < sizes[b]) {
+		swap(a, b);
+	}
+	links[b] = a;
+	sizes[a] += sizes[b];
+}
+
+// union find implementation
 int main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	ll n, m;
 	cin >> n >> m;
-	vector<set<ll>> eds(n);
-	vector<int> vis(n, 0);
-	vector<int> mp(n, 0);
 	ll ans = n;
-	int curr = 1;
-	int max_ = 0;
+	int res = 1;
+	for (int i = 0; i < n; ++i) {
+		links[i] = i;
+	}
+
 	for (ll i = 0; i < m; ++i) {
 		ll x, y;
 		cin >> x >> y;
 		--x;
 		--y;
-		eds[x].insert(y);
-		eds[y].insert(x);
-		if (!vis[x] && vis[y]) {
-			vis[x] = vis[y];
-			++mp[vis[y]];
-			--ans;
-		} else if (!vis[y] && vis[x]) {
-			vis[y] = vis[x];
-			++mp[vis[y]];
-			--ans;
-		} else if (!vis[y] && !vis[x]) {
-			vis[x] = vis[y] = curr++;
-			mp[vis[x]] = 2;
-			--ans;
-		} else if (vis[x] != vis[y]) {
-			if (mp[vis[x]] >= mp[vis[y]]) {
-				mp[vis[x]] += mp[vis[y]];
-				queue<int> q;
-				q.push(y);
-				vector<int> visited(n, 0);
-				while (!q.empty()) {
-					auto top = q.front();
-					q.pop();
-					if (visited[top]) {
-						continue;
-					}
-					visited[top] = 1;
-					for (auto z : eds[top]) {
-						vis[z] = vis[x];
-						q.push(z);
-					}
-				}
-			} else {
-				mp[vis[y]] += mp[vis[x]];
-				queue<int> q;
-				q.push(x);
-				vector<int> visited(n, 0);
-				while (!q.empty()) {
-					auto top = q.front();
-					q.pop();
-					if (visited[top]) {
-						continue;
-					}
-					visited[top] = 1;
-					for (auto z : eds[top]) {
-						vis[z] = vis[y];
-						q.push(z);
-					}
-				}
-			}
+		if (links[find(x)] != links[find(y)]) {
 			--ans;
 		}
-		if (mp[vis[x]] > max_) {
-			max_ = mp[vis[x]];
-		}
-		cout << ans << ' ' << max_ << "\n";
-		// for (auto r : vis) {
-		// 	cout << r << ' ';
-		// }
-		// cout << endl;
+		unite(x, y);
+
+		int s1 = sizes[find(x)];
+		int s2 = sizes[find(y)];
+		res = max(s1, res);
+		res = max(res, s2);
+		cout << ans << ' ' << res << endl;
 	}
 
 	return 0;
