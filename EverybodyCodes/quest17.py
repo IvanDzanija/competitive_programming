@@ -115,6 +115,7 @@ def part3(g, R, C):
     return ans[-1] * ans[-2] * ans[-3]
 
 
+# Kruskal's algorithm with union find implementation
 def main():
     infile = sys.argv[1] if len(sys.argv) >= 2 else "A.in"
     G = open(infile).read().strip()
