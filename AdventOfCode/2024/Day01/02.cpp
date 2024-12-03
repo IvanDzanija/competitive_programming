@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <fstream>
 
 #define INF (int)1e9
 #define all(x) (x).begin(), (x).end()
@@ -30,66 +29,37 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
+
 int main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
-	ifstream input("../input.txt");
+	std::ifstream input("../input.txt");
 	string line;
-	vector<vector<ll>> vec;
-	int i = 0;
+	vector<ll> a;
+	vector<ll> b;
 	while (getline(input, line)) {
-		vec.push_back(vector<ll>());
-		while (line.find(' ') != string::npos) {
-			vec[i].push_back(stoll(line.substr(0, line.find(' '))));
-			line = line.substr(line.find(' ') + 1);
-		}
-		vec[i].push_back(stoll(line));
-		++i;
+		a.push_back(stoll(line.substr(0, line.find(' '))));
+		line = line.substr(line.find(' ') + 1);
+		b.push_back(stoll(line));
 	}
-
 	ll ans = 0;
-	for (auto x : vec) {
-		for (ll j = 0; j < x.size(); ++j) {
-			ll prev;
-			if (j == 0) {
-				prev = x[1];
-			} else {
-				prev = x[0];
-			}
-			bool dec = false;
-			bool inc = false;
-			for (ll i = 1; i < x.size(); ++i) {
-				if (i == j) {
-					continue;
-				}
-				if (i == 1 && j == 0) {
-					continue;
-				}
-				if (!(abs(x[i] - prev) <= 3 && abs(x[i] - prev) >= 1)) {
-					dec = true;
-					inc = true;
-					break;
-				}
-				if (dec && inc) {
-					break;
-				}
-				if (x[i] < prev) {
-					dec = true;
-				} else if (x[i] == prev) {
-					dec = true;
-					inc = true;
-					break;
-				} else {
-					inc = true;
-				}
-				prev = x[i];
-			}
-			if ((dec && !inc) || (inc && !dec)) {
-				++ans;
-				break;
-			}
+	ll n = (ll)a.size();
+	unordered_map<ll, ll> mp1;
+	unordered_map<ll, ll> mp2;
+	for (ll i = 0; i < n; ++i) {
+		if (mp1.count(a[i])) {
+			++mp1[a[i]];
+		} else {
+			mp1[a[i]] = 1;
 		}
+		if (mp2.count(b[i])) {
+			++mp2[b[i]];
+		} else {
+			mp2[b[i]] = 1;
+		}
+	}
+	for (auto x : mp1) {
+		ans += (x.second * mp2[x.first] * x.first);
 	}
 	cout << ans << endl;
-
 	return 0;
 }
