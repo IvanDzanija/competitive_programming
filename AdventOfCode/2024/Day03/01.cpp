@@ -2,6 +2,7 @@
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #include <fstream>
+#include <regex>
 
 #define INF (int)1e9
 #define all(x) (x).begin(), (x).end()
@@ -34,61 +35,22 @@ int main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	ifstream input("input.txt");
 	string line;
-	vector<vector<ll>> vec;
-	int i = 0;
-	while (getline(input, line)) {
-		vec.push_back(vector<ll>());
-		while (line.find(' ') != string::npos) {
-			vec[i].push_back(stoll(line.substr(0, line.find(' '))));
-			line = line.substr(line.find(' ') + 1);
-		}
-		vec[i].push_back(stoll(line));
-		++i;
-	}
+	regex pattern(R"(mul\(\d+,\d+\))");
 	ll ans = 0;
-	for (auto x : vec) {
-		for (ll j = 0; j < x.size(); ++j) {
-			ll prev;
-			if (j == 0) {
-				prev = x[1];
-			} else {
-				prev = x[0];
-			}
-			bool dec = false;
-			bool inc = false;
-			for (ll i = 1; i < x.size(); ++i) {
-				if (i == j) {
-					continue;
-				}
-				if (i == 1 && j == 0) {
-					continue;
-				}
-				if (!(abs(x[i] - prev) <= 3 && abs(x[i] - prev) >= 1)) {
-					dec = true;
-					inc = true;
-					break;
-				}
-				if (dec && inc) {
-					break;
-				}
-				if (x[i] < prev) {
-					dec = true;
-				} else if (x[i] == prev) {
-					dec = true;
-					inc = true;
-					break;
-				} else {
-					inc = true;
-				}
-				prev = x[i];
-			}
-			if ((dec && !inc) || (inc && !dec)) {
-				++ans;
-				break;
-			}
+	while (getline(input, line)) {
+		auto matches_begin =
+			std::sregex_iterator(line.begin(), line.end(), pattern);
+		auto matches_end = std::sregex_iterator();
+		for (sregex_iterator it = matches_begin; it != matches_end;
+			 it = next(it)) {
+			string curr = (*it).str();
+			curr = curr.substr(curr.find('(') + 1);
+			int num1 = stoi(curr.substr(0, curr.find(',')));
+			curr = curr.substr(curr.find(',') + 1);
+			int num2 = stoi(curr.substr(0, curr.find(')')));
+			ans += ll(num1 * num2);
 		}
 	}
-	cout << "Part 2: " << ans << endl;
-
+	cout << ans << endl;
 	return 0;
 }
