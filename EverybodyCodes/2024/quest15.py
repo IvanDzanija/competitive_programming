@@ -1,6 +1,5 @@
 import sys
 from collections import deque
-from copy import deepcopy
 
 
 def part1(g, R, C):
@@ -85,7 +84,7 @@ def main():
     # print(part1(G, R, C))
     print(part2(G, R, C))
     # part3 is the same as part2 just way bigger grid
-    # runs for 20 minutes :)
+    # runs for 20 minutes :) while the same approach runs for just under a minute in c++
     return 0
 
 
