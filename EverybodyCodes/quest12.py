@@ -107,19 +107,73 @@ def part2(g, R, C):
     return ans
 
 
-# implementation of algebraic solution: https://github.com/mmdoogie/everybody-codes/blob/main/ec_2024/ec_2024_12.py
+class Shot:
+    def __init__(self, x, y, left, value, power):
+        self.x = x
+        self.y = y
+        self.left = left
+        self.value = value
+        self.power = power
+
+
 def part3(g):
     ans = 0
     shooters = [(0, 0), (0, 1), (0, 2)]
     targets = []
     for x in g:
-        print(x)
+        r, c = x.split(" ")
+        targets.append((int(r), int(c)))
 
-    def power(shooter, target):
-        dx = target[0] - shooter[0]
-        dy = target[1] - shooter[1]
-        if dx == dy:
-            return int(dx) * (1 + shooter[1])
+    shots = []
+    power = 0
+    time = 0
+    inRange = {}
+    while len(targets) > 0:
+        newShots = []
+        for shot in shots:
+            if shot.y < 0:
+                continue
+            if shot.left > 0:
+                shot.left -= 1
+                shot.x += 1
+            else:
+                shot.x += 1
+                shot.y -= 1
+            newShots.append(shot)
+        shots = newShots[:]
+        power += 1
+        time += 1
+        index = 1
+        for shooter in shooters:
+            currX = shooter[0] + time
+            currY = shooter[1] + time
+            currLeft = power
+            currPower = power
+            currValue = index
+            current = Shot(
+                x=currX, y=currY, left=currLeft, value=currValue, power=currPower
+            )
+            shots.append(current)
+            index += 1
+
+        for shot in shots:
+            if (shot.x, shot.y) in inRange:
+                inRange[(shot.x, shot.y)] = min(
+                    shot.power * shot.value, inRange[(shot.x, shot.y)]
+                )
+            else:
+                inRange[(shot.x, shot.y)] = shot.power * shot.value
+
+        newTargets = []
+        for target in targets:
+            RR = target[0] - 1
+            CC = target[1] - 1
+            if (RR, CC) in inRange:
+                ans += inRange[(RR, CC)]
+                continue
+            else:
+                newTargets.append((RR, CC))
+        targets = newTargets
 
     return ans
 
@@ -132,7 +186,7 @@ def main():
     C = len(G[0])
     # print(part1(G, R, C))
     # print(part2(G, R, C))
-    print(part3(G))
+    # print(part3(G))
     return 0
 
 
