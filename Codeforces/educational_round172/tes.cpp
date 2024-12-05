@@ -29,8 +29,46 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-signed main(void) {
+bool comp(pair<pair<ll, ll>, ll> f, pair<pair<ll, ll>, ll> s) {
+	if (f.first.first == s.first.first) {
+		return f.first.second > s.first.second;
+	}
+	return f.first.first < s.first.first;
+}
+int main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
-
+	ll t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		vector<pair<pair<int, int>, int>> a;
+		for (int i = 0; i < n; ++i) {
+			int x, y;
+			cin >> x >> y;
+			a.push_back(make_pair(make_pair(x, y), i));
+		}
+		vector<int> ans(n, 0);
+		sort(all(a), comp);
+		indexed_set<int> set;
+		for (int i = 0; i < n; ++i) {
+			auto curr = a[i].first.second;
+			if (set.find(curr) != set.end()) {
+				ans[a[i].second] = 0;
+				ans[a[i - 1].second] = 0;
+				continue;
+			}
+			set.insert(curr);
+			int pos = set.order_of_key(curr);
+			if (pos == set.size() - 1) {
+				ans[a[i].second] = 0;
+				continue;
+			} else {
+			}
+		}
+		for (auto x : ans) {
+			cout << x << endl;
+		}
+	}
 	return 0;
 }

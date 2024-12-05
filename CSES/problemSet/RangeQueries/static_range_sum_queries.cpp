@@ -29,8 +29,24 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-signed main(void) {
+int main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
+	ll n, q;
+	cin >> n >> q;
+	vector<ll> prefix_sum(1, 0);
+	ll sum = 0;
+	for (ll i = 0; i < n; ++i) {
+		ll x;
+		cin >> x;
+		sum += x;
+		prefix_sum.push_back(sum);
+	}
 
+	while (q--) {
+		ll a, b;
+		cin >> a >> b;
+		ll ans = prefix_sum[b] - prefix_sum[a - 1];
+		cout << ans << endl;
+	}
 	return 0;
 }

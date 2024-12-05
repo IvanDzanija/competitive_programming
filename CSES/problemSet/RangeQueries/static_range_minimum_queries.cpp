@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <cmath>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 
@@ -29,8 +30,43 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-signed main(void) {
-	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 
+vector<vector<ll>> sparse_table(vector<ll> vec) {
+	int n = vec.size();
+	int k = log2(n);
+
+	vector<vector<ll>> sparse_table(n, vector<ll>(k + 1));
+	for (ll i = 0; i < n; ++i) {
+		sparse_table[i][0] = vec[i];
+	}
+	int len = 1;
+	for (ll i = 1; i <= k; ++i) {
+		len <<= 1;
+		for (ll j = 0; j <= n - len; ++j) {
+			sparse_table[j][i] = min(sparse_table[j][i - 1],
+									 sparse_table[(len >> 1) + j][i - 1]);
+		}
+	}
+	return sparse_table;
+}
+int main(void) {
+	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
+	ll n, q;
+	cin >> n >> q;
+	vector<ll> a(n, 0);
+	for (ll i = 0; i < n; ++i) {
+		cin >> a[i];
+	}
+
+	vector<vector<ll>> stable = sparse_table(a);
+	while (q--) {
+		ll a, b;
+		cin >> a >> b;
+		--a;
+		--b;
+		ll len = log2(b - a);
+		ll ans = min(stable[a][len], stable[b - (1 << len) + 1][len]);
+		cout << ans << endl;
+	}
 	return 0;
 }
