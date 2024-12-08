@@ -29,38 +29,39 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-bool comp(pair<int, int> a, pair<int, int> b) {
-	if (a.first == b.first) {
-		return a.second < b.second;
-	}
-	return a.first > b.first;
-}
 
 signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	ll t;
 	cin >> t;
 	while (t--) {
-		string s;
-		cin >> s;
-		string ans;
-		for (ll i = 0; i < s.size(); ++i) {
-			int m = s[i] - '0';
-			int pos = 0;
-			for (ll j = 0; j < 9 && j + i < s.size(); ++j) {
-				int curr = s[i + j] - '0' - j;
-				if (curr > m) {
-					m = curr;
-					pos = i + j;
-				}
-			}
-			while (pos > i) {
-				swap(s[pos], s[pos - 1]);
-				--pos;
-			}
-			ans += (m + '0');
+		string a, b, c;
+		cin >> a;
+		cin >> b;
+		cin >> c;
+		vector<vector<int>> dp(a.size() + 1, vector<int>(b.size() + 1, INF));
+		dp[0][0] = 0;
+		for (ll i = 0; i < a.size(); ++i) {
+			dp[i + 1][0] = dp[i][0] + (a[i] != c[i]);
 		}
-		cout << ans << endl;
+		for (ll i = 0; i < b.size(); ++i) {
+			dp[0][i + 1] = dp[0][i] + (b[i] != c[i]);
+		}
+		// for (auto x : dp) {
+		// 	for (auto y : x) {
+		// 		cout << y << ' ';
+		// 	}
+		// 	cout << endl;
+		// }
+		for (int i = 1; i <= a.size(); ++i) {
+			for (int j = 1; j <= b.size(); ++j) {
+				int pos = i + j - 1;
+				int c1 = dp[i][j - 1] + (b[j - 1] != c[pos]);
+				int c2 = dp[i - 1][j] + (a[i - 1] != c[pos]);
+				dp[i][j] = min(c1, c2);
+			}
+		}
+		cout << dp[a.size()][b.size()] << endl;
 	}
 	return 0;
 }

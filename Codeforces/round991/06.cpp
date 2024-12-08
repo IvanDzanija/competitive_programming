@@ -29,38 +29,19 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-bool comp(pair<int, int> a, pair<int, int> b) {
-	if (a.first == b.first) {
-		return a.second < b.second;
-	}
-	return a.first > b.first;
-}
-
 signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	ll t;
 	cin >> t;
 	while (t--) {
-		string s;
-		cin >> s;
-		string ans;
-		for (ll i = 0; i < s.size(); ++i) {
-			int m = s[i] - '0';
-			int pos = 0;
-			for (ll j = 0; j < 9 && j + i < s.size(); ++j) {
-				int curr = s[i + j] - '0' - j;
-				if (curr > m) {
-					m = curr;
-					pos = i + j;
-				}
-			}
-			while (pos > i) {
-				swap(s[pos], s[pos - 1]);
-				--pos;
-			}
-			ans += (m + '0');
+		ll n, q;
+		cin >> n >> q;
+		int a[n];
+		for (ll i = 0; i < n; ++i) {
+			cin >> a[i];
 		}
-		cout << ans << endl;
+		while (q--) {
+		}
 	}
 	return 0;
 }
