@@ -31,9 +31,12 @@ struct custom_hash {
 	}
 };
 vector<vector<int>> sparse_table(vector<int> vec) {
+	if (vec.size() == 0) {
+		return vector<vector<int>>(1, vector<int>(1, 0));
+	}
 	int n = vec.size();
 	int k = log2(n);
-	vector<vector<int>> s(n, vector<int>(k + 1));
+	vector<vector<int>> s(n, vector<int>(k + 1, 1));
 	for (int i = 0; i < n; ++i) {
 		s[i][0] = vec[i];
 	}
@@ -58,19 +61,20 @@ signed main(void) {
 		for (ll i = 0; i < n; ++i) {
 			cin >> a[i];
 		}
-		auto s = sparse_table(a);
-		// for (auto x : s) {
-		// 	for (auto y : x) {
-
-		// 		cout << y << ' ';
-		// 	}
-		// 	cout << endl;
-		// }
+		vector<int> b;
+		for (int i = 0; i + 1 < n; ++i) {
+			b.push_back(abs(a[i] - a[i + 1]));
+		}
+		auto s = sparse_table(b);
 		while (q--) {
 			ll a, b;
 			cin >> a >> b;
+			if (a == b) {
+				cout << 0 << ' ';
+				continue;
+			}
 			--a;
-			--b;
+			b -= 2;
 			int j = log2(b - a + 1);
 			cout << gcd(s[a][j], s[b - (ll)pow(2, j) + 1][j]) << ' ';
 		}
