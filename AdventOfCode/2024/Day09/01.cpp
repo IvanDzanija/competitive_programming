@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <numeric>
+#include <fstream>
 
 #define INF (int)1e9
 #define all(x) (x).begin(), (x).end()
@@ -30,51 +30,46 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-vector<vector<int>> sparse_table(vector<int> vec) {
-	int n = vec.size();
-	int k = log2(n);
-	vector<vector<int>> s(n, vector<int>(k + 1));
-	for (int i = 0; i < n; ++i) {
-		s[i][0] = vec[i];
-	}
-	int len = 1;
-	for (int j = 1; j <= k; ++j) {
-		len *= 2;
-		for (int i = 0; i + len - 1 < n; ++i) {
-			s[i][j] = gcd(s[i][j - 1], s[i + len / 2][j - 1]);
-		}
-	}
-	return s;
-}
-
 signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
-	ll t;
-	cin >> t;
-	while (t--) {
-		ll n, q;
-		cin >> n >> q;
-		vector<int> a(n, 0);
-		for (ll i = 0; i < n; ++i) {
-			cin >> a[i];
-		}
-		auto s = sparse_table(a);
-		// for (auto x : s) {
-		// 	for (auto y : x) {
-
-		// 		cout << y << ' ';
-		// 	}
-		// 	cout << endl;
-		// }
-		while (q--) {
-			ll a, b;
-			cin >> a >> b;
-			--a;
-			--b;
-			int j = log2(b - a + 1);
-			cout << gcd(s[a][j], s[b - (ll)pow(2, j) + 1][j]) << ' ';
-		}
-		cout << endl;
+	ifstream input("../input.txt");
+	string line;
+	getline(input, line);
+	ll ans = 0;
+	ll n = 0;
+	for (auto x : line) {
+		n += x - '0';
 	}
+	vector<int> vec(n, -1);
+	ll pos = 0;
+	ll c = 0;
+
+	for (ll i = 0; i < line.size(); ++i) {
+		if (i & 1) {
+			pos += line[i] - '0';
+		} else {
+			ll lim = line[i] - '0' + pos;
+			for (; pos < lim; pos++) {
+				vec[pos] = c;
+			}
+			++c;
+		}
+	}
+	ll last = n - 1;
+	for (ll i = 0; i < n && last > i; ++i) {
+		if (vec[i] == -1) {
+			swap(vec[i], vec[last]);
+			while (vec[last] == -1) {
+				--last;
+			}
+		}
+	}
+	for (ll i = 0; i < n; ++i) {
+		if (vec[i] != -1) {
+			ans += (i * vec[i]);
+		}
+	}
+
+	cout << ans << endl;
 	return 0;
 }
