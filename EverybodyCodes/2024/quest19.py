@@ -87,8 +87,8 @@ def part2(g):
                 g[pos[0][0]][pos[0][1]] = temp
     ans = ""
     start = False
-    # for x in g:
-    #     print(x)
+    for x in g:
+        print(x)
     for x in g:
         for y in x:
             if y == ">":
@@ -111,14 +111,17 @@ def part3(g):
     rotation = [[-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]]
     grid = deepcopy(g)
     g = []
-    for i in range(len(grid)):
+    for i in range(R):
         tmp = []
-        for j in range(len(grid[0])):
+        for j in range(C):
             tmp.append((i, j))
         g.append(tmp)
 
     def mul(p1, p2):
-
+        res = {}
+        for key in p1.keys():
+            res[key] = p1[p2[key]]
+        return res
 
     def exp(perm, left):
         if left == 1:
@@ -140,20 +143,32 @@ def part3(g):
             for i in range(8):
                 pos[i][0] += r
                 pos[i][1] += c
-            print(pos)
             temp = g[pos[7][0]][pos[7][1]]
             for i in range(7, 0, -1):
                 r1, c1 = pos[i]
                 r2, c2 = pos[i - 1]
                 g[r1][c1] = g[r2][c2]
             g[pos[0][0]][pos[0][1]] = temp
-    for x in g:
-        print(x)
+    perm = {}
+    for r in range(R):
+        for c in range(C):
+            perm[(r, c)] = g[r][c]
+
+    final = exp(perm, steps)
+    g1 = []
+    for r in range(R):
+        temp = []
+        for c in range(C):
+            temp.append("1")
+        g1.append(temp)
+
+    for x in final.items():
+        g1[x[0][0]][x[0][1]] = grid[x[1][0]][x[1][1]]
     ans = ""
     start = False
     # for x in g:
     #     print(x)
-    for x in g:
+    for x in g1:
         for y in x:
             if y == ">":
                 start = True
@@ -171,7 +186,7 @@ def main():
     G = G.split("\n")
     # print(part1(G))
     # print(part2(G))
-    print(part3(G))
+    # print(part3(G))
     return 0
 
 
