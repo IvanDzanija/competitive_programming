@@ -153,7 +153,7 @@ def main():
     C = len(G[0])
     # print(part1(G, R, C))
     # print(part2(G, R, C))
-    print(part3(G, R, C))
+    # print(part3(G, R, C))
     return 0
 
 
