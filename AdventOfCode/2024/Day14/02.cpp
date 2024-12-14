@@ -82,12 +82,12 @@ signed main(void) {
 		if (check()) {
 			// uncomment to see the Christmas tree
 			// for (auto x : grid) {
-			// 	for (auto y : x) {
-			// 		cout << y;
-			// 	}
-			// 	cout << endl;
-			// }
-			break;
+			//  	for (auto y : x) {
+			//  		cout << y;
+			//  	}
+			//  	cout << endl;
+			//  }
+			// break;
 		}
 	}
 	cout << t << endl;
