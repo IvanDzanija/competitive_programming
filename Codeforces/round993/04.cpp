@@ -31,6 +31,31 @@ struct custom_hash {
 };
 signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
-
+	ll t;
+	cin >> t;
+	while (t--) {
+		ll n;
+		cin >> n;
+		vector<ll> a(n, 0);
+		set<ll> pos;
+		for (ll i = 1; i <= n; ++i) {
+			pos.insert(i);
+		}
+		for (ll i = 0; i < n; ++i) {
+			cin >> a[i];
+			pos.erase(a[i]);
+		}
+		set<ll> seen;
+		for (ll i = 0; i < n; ++i) {
+			if (seen.count(a[i])) {
+				cout << *pos.begin() << ' ';
+				pos.erase(pos.begin());
+			} else {
+				cout << a[i] << ' ';
+				seen.insert(a[i]);
+			}
+		}
+		cout << endl;
+	}
 	return 0;
 }
