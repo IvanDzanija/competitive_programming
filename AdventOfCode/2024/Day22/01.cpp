@@ -1,12 +1,13 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <fstream>
 using ll = int64_t;
 using ull = uint64_t;
 using ld = long double;
 #define INF (int)1e9
 #define all(x) (x).begin(), (x).end()
-#define MOD (int)(1e9 + 7)
+#define MOD (ll)(16777216)
 
 using namespace __gnu_pbds;
 using namespace std;
@@ -30,6 +31,27 @@ struct custom_hash {
 };
 signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
-
+	ifstream input("../input.txt");
+	string line;
+	vector<ll> vec;
+	while (getline(input, line)) {
+		vec.push_back(stoll(line));
+	}
+	ll ans = 0;
+	for (auto x : vec) {
+		for (ll i = 0; i < 2000; ++i) {
+			ll y = x * 64;
+			x ^= y;
+			x %= MOD;
+			y = x / 32;
+			x ^= y;
+			x %= MOD;
+			y = x * 2048;
+			x ^= y;
+			x %= MOD;
+		}
+		ans += x;
+	}
+	cout << ans << endl;
 	return 0;
 }
