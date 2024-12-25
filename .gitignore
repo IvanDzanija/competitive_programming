@@ -4,6 +4,7 @@
 *.in
 .mypy_cache
 .ropeproject
+ProjectEuler
 *.xcodeproj/
 DerivedData/
 input.txt
