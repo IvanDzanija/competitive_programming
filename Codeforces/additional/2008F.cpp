@@ -1,15 +1,16 @@
 #include <bits/stdc++.h>
+#include <climits>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+using namespace std;
 using ll = int64_t;
 using ull = uint64_t;
 using ld = long double;
-#define INF (int)1e9
+const ll INF = LLONG_MAX;
 #define all(x) (x).begin(), (x).end()
 #define MOD (int)(1e9 + 7)
 
-using namespace __gnu_pbds;
-using namespace std;
 mt19937 rnd(chrono::steady_clock::now().time_since_epoch().count());
 template <typename T>
 using indexed_set = tree<T, null_type, std::less<T>, rb_tree_tag,
@@ -29,18 +30,50 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-void solve() { return; }
+ll mul(ll x, ll y) { return (x * y) % MOD; }
+ll pow_mod(ll x, int exp) {
+	if (exp == 0) {
+		return 1ULL;
+	}
+	if (exp == 1) {
+		return x % MOD;
+	}
+	if (exp & 1) {
+		return mul(x, pow_mod(x, exp - 1));
+	} else {
+		return pow_mod(mul(x, x), exp / 2);
+	}
+}
+void solve() {
+	ll n;
+	cin >> n;
+	vector<int> a(n, 0);
+	vector<ll> psum;
+	ll sum = 0;
+	for (int i = 0; i < n; ++i) {
+		cin >> a[i];
+		sum += a[i];
+		psum.push_back(sum);
+	}
+	ll res = 0;
+	int k = (int)psum.size();
+	for (int i = 0; i < n; ++i) {
+		res += a[i] * ((psum[k - 1] - psum[i]) % MOD) % MOD;
+		res %= MOD;
+	}
+	cout << res * pow_mod(n * (n - 1) / 2 % MOD, MOD - 2) % MOD << endl;
+	return;
+}
 signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	int t = 1;
 	cin >> t;
 	while (t--) {
 		solve();
-	}
 #ifdef LOCAL
-	cout << "--------------------------------------------"
-		 << "\n";
+		cout << "--------------------------------------------" << endl;
 #endif
+	}
 
 #ifdef LOCAL
 	cerr << endl
