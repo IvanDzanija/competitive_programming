@@ -29,22 +29,25 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-void solve() { return; }
+void solve() {
+	int n;
+	cin >> n;
+	return;
+}
+
 signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	int t = 1;
 	cin >> t;
 	while (t--) {
 		solve();
-	}
 #ifdef LOCAL
-	cout << "--------------------------------------------"
-		 << "\n";
+		cout << "--------------------------------------------" << endl;
 #endif
+	}
 
 #ifdef LOCAL
-	cerr << endl
-		 << "Finished in " << clock() * 1.0 / CLOCKS_PER_SEC << " sec" << endl;
+	cerr << "Finished in " << clock() * 1.0 / CLOCKS_PER_SEC << " sec" << endl;
 #endif
 	return 0;
 }
