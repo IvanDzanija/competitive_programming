@@ -40,18 +40,26 @@ void solve() {
 	for (int i = 0; i < n; ++i) {
 		ll x;
 		cin >> x;
-		c.insert(x % a);
+		c.insert(x);
 	}
 	ll ans = *prev(c.end()) - *c.begin();
+	ll t = *prev(c.end());
+	for (int i = 0; i < n; ++i) {
+		ll low = *c.begin();
+		ll curr = t - low;
+		ll q = curr / a;
+		low += (q * a);
+		c.erase(c.begin());
+		c.insert(low);
+		ans = min(*prev(c.end()) - *c.begin(), ans);
+	}
 	for (int i = 0; i < n; ++i) {
 		ll low = *c.begin();
 		ll high = *prev(c.end());
-
 		ll curr = high - low;
 		ll q = curr / a;
 		low += (q * a);
 		curr = high - low;
-
 		if (low <= high && low >= *next(c.begin())) {
 			ans = min(high - *next(c.begin()), ans);
 		}
