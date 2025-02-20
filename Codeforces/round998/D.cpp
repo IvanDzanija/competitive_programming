@@ -30,8 +30,22 @@ struct custom_hash {
 	}
 };
 void solve() {
-	ll n;
+	int n;
 	cin >> n;
+	vector<int> vec(n, 0);
+	for (int i = 0; i < n; ++i) {
+		cin >> vec[i];
+	}
+	for (int i = 0; i < n - 1; ++i) {
+		ll mn = min(vec[i], vec[i + 1]);
+		vec[i] -= mn;
+		vec[i + 1] -= mn;
+		if (vec[i] != 0) {
+			cout << "NO" << endl;
+			return;
+		}
+	}
+	cout << "YES" << endl;
 	return;
 }
 

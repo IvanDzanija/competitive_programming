@@ -30,7 +30,7 @@ struct custom_hash {
 	}
 };
 void solve() {
-	ll n;
+	int n;
 	cin >> n;
 	return;
 }

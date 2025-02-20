@@ -30,8 +30,13 @@ struct custom_hash {
 	}
 };
 void solve() {
-	ll n;
-	cin >> n;
+	int x1, x2, x4, x5;
+	cin >> x1 >> x2 >> x4 >> x5;
+	set<int> s;
+	s.insert(x2 + x1);
+	s.insert(x4 - x2);
+	s.insert(x5 - x4);
+	cout << 4 - s.size() << endl;
 	return;
 }
 
