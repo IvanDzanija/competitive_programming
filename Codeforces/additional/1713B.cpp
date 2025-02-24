@@ -14,10 +14,8 @@ mt19937 rnd(chrono::steady_clock::now().time_since_epoch().count());
 template <typename T>
 using indexed_set = tree<T, null_type, std::less<T>, rb_tree_tag,
 						 tree_order_statistics_node_update>;
-struct custom_hash
-{
-	static uint64_t splitmix64(uint64_t x)
-	{
+struct custom_hash {
+	static uint64_t splitmix64(uint64_t x) {
 		// http://xorshift.di.unimi.it/splitmix64.c
 		x += 0x9e3779b97f4a7c15;
 		x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
@@ -25,27 +23,38 @@ struct custom_hash
 		return x ^ (x >> 31);
 	}
 
-	size_t operator()(uint64_t x) const
-	{
+	size_t operator()(uint64_t x) const {
 		static const uint64_t FIXED_RANDOM =
 			chrono::steady_clock::now().time_since_epoch().count();
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-void solve()
-{
+void solve() {
 	ll n;
 	cin >> n;
+	vector<ll> vec(n, 0);
+	for (ll i = 0; i < n; ++i) {
+		cin >> vec[i];
+	}
+	bool first = false;
+	for (ll i = 1; i < n - 1; ++i) {
+		if (vec[i] < vec[i - 1]) {
+			first = true;
+		}
+		if (vec[i + 1] > vec[i] && first) {
+			cout << "NO" << endl;
+			return;
+		}
+	}
+	cout << "YES" << endl;
 	return;
 }
 
-signed main(void)
-{
+signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	int t = 1;
 	cin >> t;
-	while (t--)
-	{
+	while (t--) {
 		solve();
 #ifdef LOCAL
 		cout << "--------------------------------------------" << endl;
