@@ -41,7 +41,7 @@ void solve() {
 signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	ll tc = 1;
-	scanf("%lld", &tc);
+	cin >> tc;
 	while (tc--) {
 		solve();
 #ifdef LOCAL
