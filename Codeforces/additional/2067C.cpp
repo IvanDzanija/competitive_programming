@@ -33,7 +33,6 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-
 inline int count_digits(ll num) {
 	if (num < 10)
 		return 1;
@@ -76,21 +75,46 @@ inline int count_digits(ll num) {
 
 	return 20;
 }
+
 void solve() {
 	ll n;
 	cin >> n;
 	ll ans = INF;
-	for (ll i = 0; i < 7; ++i) {
-		string k = to_string(n - i);
-		for (auto x : k) {
-			ll c = x - '0';
-			if (c <= 7 && i >= 7 - c) {
-				cout << i << endl;
+	queue<tuple<ll, ll, ll>> q;
+	q.push(make_tuple(n, 0, 0));
+	set<ll> seen;
+	while (!q.empty()) {
+		auto [l, d, z] = q.front();
+		q.pop();
+		if (seen.count(l)) {
+			continue;
+		}
+		seen.insert(l);
+		ll dig = count_digits(l);
+		ll k = l;
+		for (ll i = 0; i < dig; ++i) {
+			if (k % 10 == 7) {
+				cout << d << endl;
 				return;
 			}
+			k /= 10;
+		}
+		if (z == 0) {
+			ll t = 9;
+			for (ll i = 1; i <= dig; ++i) {
+				q.push(make_tuple(t + l, d + 1, i));
+				t *= 10;
+				t += 9;
+			}
+		} else {
+			ll t = 9;
+			for (ll i = 1; i < z; ++i) {
+				t *= 10;
+				t += 9;
+			}
+			q.push(make_tuple(t + l, d + 1, z));
 		}
 	}
-	cout << 7 << endl;
 
 	return;
 }
