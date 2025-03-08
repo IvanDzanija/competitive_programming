@@ -1,10 +1,11 @@
 // #pragma GCC optimize("Ofast")
 // #pragma GCC target("avx,avx2,fma")
 // #pragma GCC optimization("unroll-loops")
+#include <algorithm>
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <queue>
+#include <iterator>
 using ll = int64_t;
 using ull = uint64_t;
 using ld = long double;
@@ -33,86 +34,67 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-inline int count_digits(ll num) {
-	if (num < 10)
-		return 1;
-	if (num < 100)
-		return 2;
-	if (num < 1000)
-		return 3;
-	if (num < 10000)
-		return 4;
-	if (num < 100000)
-		return 5;
-	if (num < 1000000)
-		return 6;
-	if (num < 10000000)
-		return 7;
-	if (num < 100000000)
-		return 8;
-	if (num < 1000000000)
-		return 9;
-	if (num < 10000000000)
-		return 10;
-	if (num < 100000000000)
-		return 11;
-	if (num < 1000000000000)
-		return 12;
-	if (num < 10000000000000)
-		return 13;
-	if (num < 100000000000000)
-		return 14;
-	if (num < 1000000000000000)
-		return 15;
-	if (num < 10000000000000000)
-		return 16;
-	if (num < 100000000000000000)
-		return 17;
-	if (num < 1000000000000000000)
-		return 18;
-	if (num < 10000000000000000000ULL)
-		return 19;
+const int maxN = 500;
 
-	return 20;
+vector<int> hor;
+vector<int> ver;
+
+void precalc(void) {
+	ll h = 0, v = 0;
+	for (ll i = 0; i < maxN; ++i) {
+		h += hor.size();
+		hor.push_back(h);
+	}
+	for (ll i = 0; i < maxN; ++i) {
+		v += ver.size() + 1;
+		ver.push_back(v);
+	}
 }
 
 void solve() {
-	ll n;
+	int n;
 	cin >> n;
-	queue<tuple<ll, ll, ll>> q;
-	q.push(make_tuple(n, 0, 0));
-	set<ll> seen;
-	while (!q.empty()) {
-		auto [l, d, z] = q.front();
-		q.pop();
-		if (seen.count(l)) {
-			continue;
+	if (n == 0) {
+		cout << 0 << endl;
+		return;
+	}
+	ll ans = 0;
+	int x = 0, y = 0;
+
+	auto it = prev(upper_bound(all(hor), n));
+	x = distance(hor.begin(), it);
+	n -= *it;
+	ans += x + 1;
+	// cout << n << ' ' << ans << ' ' << x << ' ' << *it << endl;
+	if (n > 0) {
+		it = prev(upper_bound(all(ver), n));
+		y = distance(ver.begin(), it) + 1;
+		n -= *it;
+		ans += y;
+		// cout << n << ' ' << ans << ' ' << y << ' ' << *it << endl;
+	}
+	int r = 1, c = 1, diag = 0;
+	while (n > 0) {
+		if (r > x || c > y || n - 2 < 0) {
+			break;
 		}
-		seen.insert(l);
-		ll dig = count_digits(l);
-		ll k = l;
-		for (ll i = 0; i < dig; ++i) {
-			if (k % 10 == 7) {
-				cout << d << endl;
-				return;
-			}
-			k /= 10;
-		}
-		if (z == 0) {
-			ll t = 9;
-			for (ll i = 1; i <= dig; ++i) {
-				q.push(make_tuple(t + l, d + 1, i));
-				t *= 10;
-				t += 9;
-			}
-		} else {
-			ll t = 9;
-			for (ll i = 1; i < z; ++i) {
-				t *= 10;
-				t += 9;
-			}
-			q.push(make_tuple(t + l, d + 1, z));
-		}
+		diag = r;
+		++ans, ++r, ++c, n -= 2;
+	}
+	cout << ans + n << endl;
+	for (ll i = 0; i <= x; ++i) {
+		cout << i << ' ' << 0 << endl;
+	}
+	for (ll i = 1; i <= y; ++i) {
+		cout << 0 << ' ' << i << endl;
+	}
+	for (ll i = 1; i <= diag; ++i) {
+		cout << i << ' ' << i << endl;
+	}
+	x = diag + 1, y = -1;
+	while (n--) {
+		cout << x << ' ' << y << endl;
+		++x, --y;
 	}
 
 	return;
@@ -122,6 +104,7 @@ signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	ll tc = 1;
 	cin >> tc;
+	precalc();
 	while (tc--) {
 		solve();
 #ifdef LOCAL
