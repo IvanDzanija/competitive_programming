@@ -1,11 +1,9 @@
 // #pragma GCC optimize("Ofast")
 // #pragma GCC target("avx,avx2,fma")
 // #pragma GCC optimization("unroll-loops")
-#include <algorithm>
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <iterator>
 using ll = int64_t;
 using ull = uint64_t;
 using ld = long double;
@@ -34,67 +32,57 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-const int maxN = 500;
-
-vector<int> hor;
-vector<int> ver;
-
-void precalc(void) {
-	ll h = 0, v = 0;
-	for (ll i = 0; i < maxN; ++i) {
-		h += hor.size();
-		hor.push_back(h);
-	}
-	for (ll i = 0; i < maxN; ++i) {
-		v += ver.size() + 1;
-		ver.push_back(v);
-	}
-}
-
 void solve() {
-	int n;
-	cin >> n;
-	if (n == 0) {
-		cout << 0 << endl;
+	ll n, m, k;
+	cin >> n >> m >> k;
+	if (n + k < m || m + k < n || max(n, m) < k) {
+		cout << -1 << endl;
 		return;
 	}
-	ll ans = 0;
-	int x = 0, y = 0;
-
-	auto it = prev(upper_bound(all(hor), n));
-	x = distance(hor.begin(), it);
-	n -= *it;
-	ans += x + 1;
-	if (n > 0) {
-		it = prev(upper_bound(all(ver), n));
-		y = distance(ver.begin(), it) + 1;
-		n -= *it;
-		ans += y;
-	}
-	int r = 1, c = 1, diag = 0;
-	while (n > 0) {
-		if (r > x || c > y || n - 2 < 0) {
-			break;
+	if (n > m) {
+		for (ll i = 0; i < k; ++i) {
+			cout << '0';
 		}
-		diag = r;
-		++ans, ++r, ++c, n -= 2;
+		n -= k;
+		bool z = false;
+		while (n > 0 || m > 0) {
+			if (z) {
+				cout << 0;
+				--n;
+				if (m) {
+					z = false;
+				}
+			} else {
+				cout << 1;
+				--m;
+				if (n) {
+					z = true;
+				}
+			}
+		}
+	} else {
+		for (ll i = 0; i < k; ++i) {
+			cout << '1';
+		}
+		m -= k;
+		bool z = true;
+		while (n > 0 || m > 0) {
+			if (z) {
+				cout << 0;
+				--n;
+				if (m) {
+					z = false;
+				}
+			} else {
+				cout << 1;
+				--m;
+				if (n) {
+					z = true;
+				}
+			}
+		}
 	}
-	cout << ans + n << endl;
-	for (ll i = 0; i <= x; ++i) {
-		cout << i << ' ' << 0 << endl;
-	}
-	for (ll i = 1; i <= y; ++i) {
-		cout << 0 << ' ' << i << endl;
-	}
-	for (ll i = 1; i <= diag; ++i) {
-		cout << i << ' ' << i << endl;
-	}
-	x = diag + 1, y = -1;
-	while (n--) {
-		cout << x << ' ' << y << endl;
-		++x, --y;
-	}
-
+	cout << endl;
 	return;
 }
 
@@ -102,7 +90,6 @@ signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	ll tc = 1;
 	cin >> tc;
-	precalc();
 	while (tc--) {
 		solve();
 #ifdef LOCAL
