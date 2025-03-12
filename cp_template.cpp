@@ -32,7 +32,7 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
-void solve() {
+void solve(void) {
 	ll n;
 	cin >> n;
 	return;
