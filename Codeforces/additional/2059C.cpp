@@ -4,9 +4,9 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-typedef long long ll;
-typedef unsigned long long ull;
-typedef long double ld;
+using ll = int64_t;
+using ull = uint64_t;
+using ld = long double;
 #define INF (ll)1e9
 #define all(x) (x).begin(), (x).end()
 #define MOD (ll)(1e9 + 7)
@@ -35,6 +35,36 @@ struct custom_hash {
 void solve(void) {
 	ll n;
 	cin >> n;
+	vector<ll> count(n - 1, 0);
+	for (ll i = 0; i < n; ++i) {
+		ll sum = 0;
+		vector<ll> prefix(n);
+		for (ll j = 0; j < n; ++j) {
+			ll x;
+			cin >> x;
+			sum += x;
+			prefix[j] = sum;
+		}
+		ll index = 0;
+		for (ll j = n - 2; j >= 0; --j) {
+			ll current = sum - prefix[j];
+			if (current == index + 1) {
+				++count[index];
+				++index;
+			} else {
+				break;
+			}
+		}
+	}
+	ll mx = INF;
+	for (ll i = 0; i < n - 1; ++i) {
+		if (count[i] == 0 || i == mx) {
+			cout << i + 1 << endl;
+			return;
+		}
+		mx = min(mx, i + count[i]);
+	}
+	cout << n << endl;
 	return;
 }
 

@@ -44,7 +44,6 @@ int main(void) {
 						}
 					}
 					ans += max;
-
 					for (auto x : pos) {
 						mat[x.first][x.second] -= max;
 					}

@@ -8,4 +8,5 @@ ProjectEuler
 *.xcodeproj/
 DerivedData/
 input.txt
+.vscode/
 ex.txt
