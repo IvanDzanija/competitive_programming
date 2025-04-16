@@ -35,7 +35,7 @@ void solve(void) {
 	string s;
 	cin >> s;
 	ll n = s.size();
-	ll size = 0, ssize = -1;
+	ll size = 0, ssize = -1, nsize = -1;
 	bool state = true;
 	bool nts = false, stn = false, ntn = true;
 	ll i = 0;
@@ -45,6 +45,7 @@ void solve(void) {
 		} else if (s[i] == '-') {
 			--size;
 		} else if (s[i] == '1') {
+			nsize = size;
 			break;
 		} else {
 			if (size < 2) {
@@ -55,10 +56,6 @@ void solve(void) {
 			state = false;
 			break;
 		}
-	}
-	ll nsize = -1;
-	if (state) {
-		nsize = size;
 	}
 	for (; i < n; ++i) {
 		if (s[i] == '+') {
