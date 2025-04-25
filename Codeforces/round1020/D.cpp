@@ -2,13 +2,12 @@
 // #pragma GCC target("avx,avx2,fma, popcnt")
 // #pragma GCC optimization("unroll-loops")
 #include <bits/stdc++.h>
-#include <climits>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 typedef long long ll;
 typedef unsigned long long ull;
 typedef long double ld;
-#define INF (ll)1e9
+#define INF (int)1e9 + 1
 #define all(x) (x).begin(), (x).end()
 #define MOD (ll)(1e9 + 7)
 
@@ -67,8 +66,12 @@ void solve(void) {
 		cout << 0 << endl;
 		return;
 	}
+	if (m == 1) {
+		cout << b[0] << endl;
+		return;
+	}
 
-	ll ans = LLONG_MAX;
+	ll ans = INF;
 	if (suffix[1] > -1) {
 		ans = min(ans, b[0]);
 	}
@@ -80,7 +83,7 @@ void solve(void) {
 			ans = min(ans, b[i]);
 		}
 	}
-	cout << ((ans == LLONG_MAX) ? -1 : ans) << endl;
+	cout << ((ans == INF) ? -1 : ans) << endl;
 
 	return;
 }
