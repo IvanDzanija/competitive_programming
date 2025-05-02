@@ -44,9 +44,9 @@ inline ll mod_inv(ll num) { return pow(num, MOD - 2); }
 
 // Factorials
 ll factorial[maxN];
-void precalc_factorial(void) {
+inline void precalc_factorial(void) {
 	factorial[0] = 1;
-	for (ll i = 1; i <= maxN; i++) {
+	for (ll i = 1; i < maxN; i++) {
 		factorial[i] = mul(factorial[i - 1], i);
 	}
 }
