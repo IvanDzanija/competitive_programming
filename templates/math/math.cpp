@@ -50,3 +50,8 @@ inline void precalc_factorial(void) {
 		factorial[i] = mul(factorial[i - 1], i);
 	}
 }
+
+inline ll nCr(ll n, ll r) {
+	return factorial[n] * mod_inv(factorial[r]) % MOD *
+		   mod_inv(factorial[n - r]) % MOD;
+}

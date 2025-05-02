@@ -1,3 +1,4 @@
+#pragma GCC target("popcnt")
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -16,8 +17,8 @@ using indexed_set = tree<T, null_type, std::less<T>, rb_tree_tag,
 						 tree_order_statistics_node_update>;
 int count_bits(ll number) { return (int)log2(number) + 1; }
 
-// equivalent to bitset<32>.count()
-int hamming(bitset<32> a, bitset<32> b) {
+// equivalent to bitset<32>.count() but way faster with pragma
+inline int hamming(bitset<32> a, bitset<32> b) {
 	return __builtin_popcount(a.to_ulong() ^ b.to_ulong());
 }
 // this is the fastest solution
@@ -28,22 +29,19 @@ int BitCount(int u) {
 }
 int main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
-	ll n, k;
+	int n, k;
 	cin >> n >> k;
 	vector<bitset<32>> a;
-	for (ll i = 0; i < n; ++i) {
+	for (int i = 0; i < n; ++i) {
 		string x;
 		cin >> x;
 		bitset<32> y(x);
 		a.push_back(y);
 	}
-	ll ans = INF;
-	for (ll i = 0; i < n; ++i) {
-		for (ll j = i + 1; j < n; ++j) {
-			ll curr = BitCount(a[i].to_ulong() ^ a[j].to_ulong());
-			if (curr < ans) {
-				ans = curr;
-			}
+	int ans = INF;
+	for (int i = 0; i < n; ++i) {
+		for (int j = i + 1; j < n; ++j) {
+			ans = min(ans, hamming(a[i], a[j]));
 		}
 	}
 	cout << ans << endl;

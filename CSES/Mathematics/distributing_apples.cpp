@@ -1,5 +1,6 @@
-// #pragma GCC optimization("Ofast,unroll-loops")
-// #pragma GCC target("avx2,bmi,bmi2,fmi,lzcnt,popcnt")
+// #pragma GCC optimize("Ofast")
+// #pragma GCC target("avx,avx2,fma, popcnt")
+// #pragma GCC optimization("unroll-loops")
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -30,16 +31,63 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
+// Modular
+// Addition
+inline ll add(ll a, ll b) {
+	ll ret = a + b;
+	if (ret >= MOD)
+		return ret - MOD;
+	if (ret < 0)
+		return ret + MOD;
+	return ret;
+}
+// Multiplication
+inline ll mul(ll a, ll b) { return (a * b) % MOD; }
+
+// Exponantiation by squaring
+inline ll pow(ll a, ll b) {
+	if (b == 0) {
+		return 1;
+	}
+	ll res = 1;
+	while (b > 0) {
+		if (b & 1) {
+			res = (res * a) % MOD;
+		}
+		a = (a * a) % MOD;
+		b >>= 1;
+	}
+	return res;
+}
+
+// Modular inverse for prime modulus
+inline ll mod_inv(ll num) { return pow(num, MOD - 2); }
+
+// Factorials
+const ll maxN = 2e6 + 1;
+ll factorial[maxN];
+inline void precalc_factorial(void) {
+	factorial[0] = 1;
+	for (ll i = 1; i < maxN; i++) {
+		factorial[i] = mul(factorial[i - 1], i);
+	}
+}
+
+inline ll ncr(ll n, ll r) {
+	return factorial[n] * mod_inv(factorial[r]) % MOD *
+		   mod_inv(factorial[abs(n - r)]) % MOD;
+}
 void solve(void) {
-	ll n;
-	cin >> n;
+	ll n, m;
+	cin >> n >> m;
+	cout << ncr(m + n - 1, n - 1) << endl;
 	return;
 }
 
 signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	ll tc = 1;
-	cin >> tc;
+	precalc_factorial();
 	while (tc--) {
 		solve();
 #ifdef LOCAL

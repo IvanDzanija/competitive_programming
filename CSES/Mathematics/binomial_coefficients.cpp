@@ -1,5 +1,6 @@
-// #pragma GCC optimization("Ofast,unroll-loops")
-// #pragma GCC target("avx2,bmi,bmi2,fmi,lzcnt,popcnt")
+// #pragma GCC optimize("Ofast")
+// #pragma GCC target("avx,avx2,fma, popcnt")
+// #pragma GCC optimization("unroll-loops")
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -30,9 +31,37 @@ struct custom_hash {
 		return splitmix64(x + FIXED_RANDOM);
 	}
 };
+const ll maxN = 1e6 + 5;
+ll factorial[maxN];
+void precalc_factorial(void) {
+	factorial[0] = 1;
+	for (ll i = 1; i < maxN; ++i) {
+		factorial[i] = (factorial[i - 1] * i) % MOD;
+	}
+}
+inline ll pow(ll a, ll b) {
+	if (b == 0) {
+		return 1;
+	}
+	ll res = 1;
+	while (b) {
+		if (b & 1) {
+			res *= a;
+			res %= MOD;
+		}
+		a = (a * a) % MOD;
+		b >>= 1;
+	}
+
+	return res;
+}
+inline ll mod_inv(ll a) { return pow(a, MOD - 2); }
 void solve(void) {
-	ll n;
-	cin >> n;
+	ll a, b;
+	cin >> a >> b;
+	cout << factorial[a] * mod_inv(factorial[b]) % MOD *
+				mod_inv(factorial[a - b]) % MOD
+		 << endl;
 	return;
 }
 
@@ -40,6 +69,7 @@ signed main(void) {
 	std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
 	ll tc = 1;
 	cin >> tc;
+	precalc_factorial();
 	while (tc--) {
 		solve();
 #ifdef LOCAL
