@@ -20,7 +20,6 @@ class Solution {
                 ans[i] = max(ans[i + 1] + 1, ans[i]);
             }
         }
-        cout << endl;
 
         return accumulate(ans.begin(), ans.end(), 0);
     }
