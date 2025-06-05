@@ -1,7 +1,6 @@
 // LeetCode 135. Candy
 // https://leetcode.com/problems/candy/
 
-#pragma once
 #include <bits/stdc++.h>
 using namespace std;
 class Solution {
