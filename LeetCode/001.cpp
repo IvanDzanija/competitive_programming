@@ -1,6 +1,3 @@
-// LeetCode 001 Two Sum
-// https://leetcode.com/problems/two-sum/
-
 #include <bits/stdc++.h>
 using namespace std;
 class Solution {

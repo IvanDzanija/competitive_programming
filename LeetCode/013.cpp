@@ -1,6 +1,3 @@
-// LeetCode 13. Roman to Integer
-// https://leetcode.com/problems/roman-to-integer/
-
 #include <bits/stdc++.h>
 using namespace std;
 class Solution {

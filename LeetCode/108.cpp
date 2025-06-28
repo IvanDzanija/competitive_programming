@@ -1,6 +1,3 @@
-// LeetCode 108. Convert Sorted Array to Binary Search Tree
-// https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
-
 #include <bits/stdc++.h>
 using namespace std;
 struct TreeNode {
