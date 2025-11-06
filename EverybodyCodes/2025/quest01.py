@@ -49,7 +49,6 @@ def main():
     part1(n, m)
     part2(n, m)
     part3(n, m)
-    return 0
 
 
 if __name__ == "__main__":

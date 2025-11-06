@@ -102,7 +102,6 @@ def main():
     part1(a)
     part2(a)
     part3(a)
-    return 0
 
 
 if __name__ == "__main__":
