@@ -67,7 +67,6 @@ def part3(a):
             if x in r.keys() and m in r[x]:
                 curr += 1
             ans = max(ans, curr)
-
     print(ans)
 
 
@@ -75,7 +74,7 @@ def main():
     infile = sys.argv[1] if len(sys.argv) >= 2 else "a.in"
     G = open(infile).read().strip()
     # part1(G)
-    part2(G)
+    # part2(G)
     # part3(G)
 
 
