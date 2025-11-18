@@ -86,7 +86,6 @@ def part2(a):
 def part3(a):
     a = list(map(int, a.split("\n")))
     corr = sum(a) / len(a)
-    print(corr)
     ans = 0
 
     for x in a:
