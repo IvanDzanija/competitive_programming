@@ -1,4 +1,3 @@
-#pragma GCC optimization("Ofast,unroll-loops")
 // #pragma GCC target("avx2,bmi,bmi2,fmi,lzcnt,popcnt")
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
