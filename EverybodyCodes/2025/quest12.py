@@ -1,6 +1,7 @@
 from functools import cache, cached_property
 from collections import deque, Counter, OrderedDict
 from itertools import *
+import time
 from math import *
 import sys
 from dataclasses import dataclass
@@ -63,10 +64,11 @@ def part3(a):
 
     bseen = set()
     fans = 0
-    for k in range(3):
+    for _ in range(3):
         ar, ac = -1, -1
         ans = 0
         sseen = set()
+
         for i in range(n):
             for j in range(m):
                 if (i, j) in sseen:
@@ -125,6 +127,7 @@ def main():
     # part1(G)
     # part2(G)
     part3(G)
+
     return 0
 
 
