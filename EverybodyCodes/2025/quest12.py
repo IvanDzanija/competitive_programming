@@ -66,8 +66,11 @@ def part3(a):
     for k in range(3):
         ar, ac = -1, -1
         ans = 0
+        sseen = set()
         for i in range(n):
             for j in range(m):
+                if (i, j) in sseen:
+                    continue
                 res = 0
                 q = deque()
                 q.append((i, j))
@@ -77,6 +80,7 @@ def part3(a):
                     if (r, c) in seen or (r, c) in bseen:
                         continue
                     seen.add((r, c))
+                    sseen.add((r, c))
                     res += 1
                     curr = int(a[r][c])
                     for dr, dc in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
@@ -119,8 +123,8 @@ def main():
     G = open(infile).read().strip()
     G = G.split("\n")
     # part1(G)
-    part2(G)
-    # part3(G)
+    # part2(G)
+    part3(G)
     return 0
 
 
