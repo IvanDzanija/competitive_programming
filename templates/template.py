@@ -3,6 +3,8 @@ from collections import deque, Counter, OrderedDict
 from itertools import *
 from math import *
 import sys
+import heapq
+from copy import deepcopy
 from dataclasses import dataclass
 import re
 from builtins import pow
