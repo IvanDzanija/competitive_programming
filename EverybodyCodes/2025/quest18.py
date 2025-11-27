@@ -269,7 +269,7 @@ def main():
     G = G.split("\n\n")
     # part1(G)
     # part2(G)
-    part3(G)
+    # part3(G)
     return 0
 
 
