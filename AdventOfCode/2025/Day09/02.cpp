@@ -94,26 +94,21 @@ void solve(void) {
     for (auto s : pts) {
       if (f.x < s.x && f.y < s.y) {
         bool ins = false;
-        // cout << f.x << ' ' << f.y << ' ' << s.x << ' ' << s.y << endl;
         for (auto [seg, ys] : inside) {
           if (seg.first < f.x || seg.second > s.x) {
             continue;
           }
           ins = false;
-          // cout << "seg: " << seg.first << ' ' << seg.second << endl;
           for (auto [y1, y2] : ys) {
-            // cout << y1 << ' ' << y2 << endl;
             assert(y1 < y2);
             if ((y2 >= s.y && y1 <= f.y)) {
               ins = true;
             }
-            //  cout << "ins: " << ins << endl;
           }
           if (!ins) {
             break;
           }
         }
-        // cout << "ins: " << ins << endl;
         if (ins) {
           ll ca = (s.x - f.x + 1) * (s.y - f.y + 1);
           ans = max(ans, ca);
