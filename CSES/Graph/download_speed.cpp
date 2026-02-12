@@ -30,16 +30,69 @@ struct custom_hash {
     return splitmix64(x + FIXED_RANDOM);
   }
 };
+vector<vector<ll>> adj;
+vector<vector<ll>> capacity;
+ll bfs(ll s, ll t, vector<ll> &parent) {
+  fill(all(parent), -1);
+  parent[s] = -2;
+  queue<pair<ll, ll>> q;
+  q.push({s, LLONG_MAX});
+  while (!q.empty()) {
+    auto [curr, flow] = q.front();
+    q.pop();
+    for (ll next : adj[curr]) {
+      if (parent[next] == -1 && capacity[curr][next]) {
+        parent[next] = curr;
+        ll new_flow = min(flow, capacity[curr][next]);
+        if (next == t) {
+          return new_flow;
+        }
+        q.push({next, new_flow});
+      }
+    }
+  }
+
+  return 0;
+}
 void solve(void) {
-  ll n;
-  cin >> n;
+  ll n, m;
+  cin >> n >> m;
+  adj.resize(n);
+  capacity.resize(n);
+  capacity.assign(n, vector<ll>(n, 0));
+  for (ll i = 0; i < m; ++i) {
+    ll x, y, w;
+    cin >> x >> y >> w;
+    --x, --y;
+    adj[x].push_back(y);
+    adj[y].push_back(x);
+    capacity[x][y] += w;
+  }
+  ll ans = 0;
+  vector<ll> vec(n);
+
+  while (true) {
+    ll flow = bfs(0, n - 1, vec);
+    if (flow == 0) {
+      break;
+    }
+    ans += flow;
+    ll curr = n - 1;
+    while (curr != 0) {
+      ll prev = vec[curr];
+      capacity[prev][curr] -= flow;
+      capacity[curr][prev] += flow;
+      curr = prev;
+    }
+  };
+  cout << ans << endl;
+
   return;
 }
 
 signed main(void) {
   std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
   ll tc = 1;
-  cin >> tc;
   while (tc--) {
     solve();
 #ifdef LOCAL

@@ -31,15 +31,53 @@ struct custom_hash {
   }
 };
 void solve(void) {
-  ll n;
-  cin >> n;
+  string line;
+  vector<string> grid;
+  int r = 0;
+  ll sr, sc;
+  while (getline(cin, line)) {
+    grid.push_back(line);
+    for (int i = 0; i < line.size(); ++i) {
+      if (line[i] == 'S') {
+        sr = r, sc = i;
+      }
+    }
+    ++r;
+  }
+  int R = grid.size();
+  int C = grid[0].size();
+  deque<pair<int, int>> q;
+  q.push_back(make_pair(sr, sc));
+  set<pair<int, int>> seen;
+  ll ans = 0;
+
+  while (!q.empty()) {
+    auto [r, c] = q.front();
+    q.pop_front();
+    if (r >= R or seen.count(make_pair(r, c))) {
+      continue;
+    }
+    seen.insert(make_pair(r, c));
+    if (grid[r][c] == '^') {
+      ++ans;
+      if (c + 1 < C) {
+        q.push_back(make_pair(r + 1, c + 1));
+      }
+      if (c - 1 >= 0) {
+        q.push_back(make_pair(r + 1, c - 1));
+      }
+    } else {
+      q.push_back(make_pair(r + 1, c));
+    }
+  }
+  cout << ans << endl;
+
   return;
 }
 
 signed main(void) {
   std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
   ll tc = 1;
-  cin >> tc;
   while (tc--) {
     solve();
 #ifdef LOCAL

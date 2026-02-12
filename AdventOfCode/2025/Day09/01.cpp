@@ -31,15 +31,33 @@ struct custom_hash {
   }
 };
 void solve(void) {
-  ll n;
-  cin >> n;
+  string line;
+  vector<pair<int, int>> dots;
+  while (getline(cin, line)) {
+    int ind = line.find(',');
+    string first = line.substr(0, ind);
+    string second = line.substr(ind + 1);
+    dots.push_back(make_pair(stoll(first), stoll(second)));
+  }
+  ll ans = 0;
+  for (int i = 0; i < dots.size(); ++i) {
+    for (int j = 0; j < dots.size(); ++j) {
+      if (i != j) {
+        int x1 = min(dots[i].first, dots[j].first);
+        int y1 = min(dots[i].second, dots[j].second);
+        int x2 = max(dots[i].first, dots[j].first);
+        int y2 = max(dots[i].second, dots[j].second);
+        ans = max(ans, (ll)(x2 - x1 + 1) * (ll)(y2 - y1 + 1));
+      }
+    }
+  }
+  cout << ans << endl;
   return;
 }
 
 signed main(void) {
   std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
   ll tc = 1;
-  cin >> tc;
   while (tc--) {
     solve();
 #ifdef LOCAL

@@ -30,16 +30,56 @@ struct custom_hash {
     return splitmix64(x + FIXED_RANDOM);
   }
 };
+int R, C;
+vector<string> grid;
+map<pair<int, int>, ll> memo;
+ll dfs(int r, int c) {
+  auto key = make_pair(r, c);
+  if (memo.count(key)) {
+    return memo[key];
+  }
+  if (r == R) {
+    return 1;
+  }
+  ll tot = 0;
+  if (grid[r][c] == '^') {
+    if (c + 1 < C) {
+      tot += dfs(r + 1, c + 1);
+    }
+    if (c - 1 >= 0) {
+      tot += dfs(r + 1, c - 1);
+    }
+  } else {
+    tot += dfs(r + 1, c);
+  }
+  memo[key] = tot;
+  return tot;
+}
 void solve(void) {
-  ll n;
-  cin >> n;
+  string line;
+  int r = 0;
+  ll sr, sc;
+  while (getline(cin, line)) {
+    grid.push_back(line);
+    for (int i = 0; i < line.size(); ++i) {
+      if (line[i] == 'S') {
+        sr = r, sc = i;
+      }
+    }
+
+    ++r;
+  }
+  R = grid.size();
+  C = grid[0].size();
+  ll ans = dfs(sr, sc);
+  cout << ans << endl;
+
   return;
 }
 
 signed main(void) {
   std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
   ll tc = 1;
-  cin >> tc;
   while (tc--) {
     solve();
 #ifdef LOCAL
