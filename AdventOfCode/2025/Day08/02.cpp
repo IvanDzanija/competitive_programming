@@ -87,7 +87,6 @@ void solve(void) {
   ll i = 0;
   while (true) {
     auto [dis, x, y] = dist[i];
-    // cout << i << ' ' << dist.size() << endl;
     if (!same(x, y)) {
       unite(x, y);
       if (len[find(x)] == n || len[find(y)] == n) {
