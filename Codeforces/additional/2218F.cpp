@@ -31,8 +31,46 @@ struct custom_hash {
   }
 };
 void solve(void) {
-  ll n;
-  cin >> n;
+  ll a, b;
+  cin >> a >> b;
+  int t = a + b;
+  if (t % 2 == 0) {
+    if (a % 2 != b % 2 or a > b or a == 0) {
+      cout << "NO" << endl;
+      return;
+    } else {
+      cout << "YES" << endl;
+      --a;
+      int c1 = 2;
+      for (ll i = 0; i < a; ++i) {
+        cout << 1 << ' ' << c1 << endl;
+        cout << c1 << ' ' << ++c1 << endl;
+        ++c1;
+      }
+      while (c1 <= t) {
+        cout << 1 << ' ' << c1++ << endl;
+      }
+      return;
+    }
+  } else {
+    if (a % 2 == b % 2 or a > b) {
+      cout << "NO" << endl;
+      return;
+    } else {
+      cout << "YES" << endl;
+      int c1 = 2;
+      for (ll i = 0; i < a; ++i) {
+        cout << 1 << ' ' << c1 << endl;
+        cout << c1 << ' ' << ++c1 << endl;
+        ++c1;
+      }
+      while (c1 <= t) {
+        cout << 1 << ' ' << c1++ << endl;
+      }
+      return;
+    }
+  }
+
   return;
 }
 
