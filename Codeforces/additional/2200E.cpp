@@ -30,30 +30,64 @@ struct custom_hash {
     return splitmix64(x + FIXED_RANDOM);
   }
 };
+
+const ll MX = 1e6;
+vector<set<ll>> sieve(MX + 1, set<ll>());
+void precompute(void) {
+  for (ll i = 2; i <= MX; ++i) {
+    if (sieve[i].size() > 0) {
+      continue;
+    }
+    for (ll j = i + i; j <= MX; j += i) {
+      sieve[j].insert(i);
+    }
+  }
+}
+
+bool check_nd(vector<ll> &a) {
+  for (ll i = 0; i < a.size() - 1; ++i) {
+    if (a[i] > a[i + 1]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 void solve(void) {
   ll n;
   cin >> n;
-
-  ll bits = 64 - countl_zero((ull)n);
-  ll ans = 0;
-
-  for (int i = 1; i <= bits; ++i) {
-    ll full = (n + 1) >> i;
-    ans += full << (i - 1);
-
-    ll rem = (n + 1) & ((1LL << (i)) - 1);  // (n+1) % 2^i
-    if (rem >= (1LL << (i - 1))) {
-      ans += rem - (1LL << (i - 1));
+  vector<ll> a(n);
+  ll mx = 0;
+  for (ll i = 0; i < n; i++) {
+    cin >> a[i];
+    mx = max(mx, a[i]);
+  }
+  if (check_nd(a)) {
+    cout << "Bob" << endl;
+    return;
+  }
+  for (ll i = 0; i < n; ++i) {
+    if (sieve[a[i]].size() > 1) {
+      cout << "Alice" << endl;
+      return;
+    } else if (sieve[a[i]].size() == 1) {
+      a[i] = *sieve[a[i]].begin();
     }
   }
-  cout << ans << endl;
+  if (check_nd(a)) {
+    cout << "Bob" << endl;
+  } else {
+    cout << "Alice" << endl;
+  }
+
   return;
 }
 
 signed main(void) {
   std::ios_base::sync_with_stdio(0), std::cin.tie(0), std::cout.tie(0);
   ll tc = 1;
-  // cin >> tc;
+  cin >> tc;
+  precompute();
   while (tc--) {
     solve();
 #ifdef LOCAL
