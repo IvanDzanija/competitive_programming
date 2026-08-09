@@ -1,4 +1,3 @@
-// #pragma GCC optimization("Ofast,unroll-loops")
 // #pragma GCC target("avx2,bmi,bmi2,fmi,lzcnt,popcnt")
 #include <bits/stdc++.h>
 
@@ -31,45 +30,24 @@ struct custom_hash {
     return splitmix64(x + FIXED_RANDOM);
   }
 };
-vector<ll> dp(3e5 + 5), sub(3e5 + 5);
-void dfs(vector<vector<ll>> &tr, ll s, ll e) {
-  dp[s] = 0, sub[s] = 1;
-  ll cnt = 0;
-  for (auto x : tr[s]) {
-    if (x == e) {
-      continue;
-    }
-    dfs(tr, x, s);
-    sub[s] += sub[x];
-    cnt += dp[x];
-  }
-  for (auto x : tr[s]) {
-    if (x == e) {
-      continue;
-    }
-    dp[s] = max(dp[s], cnt - dp[x] + sub[x] - 1);
-  }
-  return;
-}
 void solve(void) {
-  ll n;
-  cin >> n;
-  vector<vector<ll>> tr(n);
-  for (ll i = 0; i < n - 1; ++i) {
-    ll x, y;
-    cin >> x >> y;
-    --x, --y;
-    tr[x].push_back(y);
-    tr[y].push_back(x);
+  ll n, q;
+  cin >> n >> q;
+  vector<pair<ll, ll>> a(n);
+  for (ll i = 0; i < n; ++i) {
+    ll x;
+    cin >> x;
+    a[i] = make_pair(x, i);
   }
-  dfs(tr, 0, -1);
-
-  if (tr[0].size() == 1) {
-    cout << sub[tr[0][0]] - 1 << endl;
-  } else {
-    cout << dp[0] << endl;
+  sort(all(a));
+  ll res = 0;
+  for (ll i = 0; i < n; ++i) {
+    if (a[i].second != i) {
+      ull curr = countl_zero((ull)abs(a[i].second ^ i));
+      res = max(res, (ll)powl(2, 63 - curr));
+    }
   }
-
+  cout << res << endl;
   return;
 }
 
