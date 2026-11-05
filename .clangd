@@ -1,0 +1,25 @@
+CompileFlags:
+  Compiler: /opt/homebrew/bin/g++-16
+  Add:
+    [
+      --gcc-toolchain=/opt/homebrew/Cellar/gcc/16.2.0,
+      -std=gnu++26,
+      -D_GNU_SOURCE,
+      -Wno-unknown-pragmas,
+      -fgnuc-version=16,
+      -nostdinc++,
+      -D__GNUC__=15,
+      -D__GNUC_MINOR__=1,
+      -D__float128=long double,
+      -Drsize_t=size_t,
+      -I/opt/homebrew/Cellar/gcc/16.2.0/include/c++/16,
+      -I/opt/homebrew/Cellar/gcc/16.2.0/include/c++/16/aarch64-apple-darwin25,
+      -I/opt/homebrew/Cellar/gcc/16.2.0/bin/../lib/gcc/current/gcc/aarch64-apple-darwin25/16/include,
+      -I/opt/homebrew/Cellar/gcc/16.2.0/bin/../lib/gcc/current/gcc/aarch64-apple-darwin25/16/include-fixed,
+      -I/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/usr/include,
+      -I/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk/System/Library/Frameworks,
+      -I/opt/homebrew/include,
+      -isystem /opt/homebrew/Cellar/gcc/16.2.0/include,
+      -idirafter /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include,
+      -Wall,
+    ]
