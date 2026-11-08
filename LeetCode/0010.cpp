@@ -4,7 +4,7 @@ using namespace std;
 class Solution {
   using ll = int64_t;
 
- public:
+public:
   string ss, pp;
   map<pair<int, int>, bool> memo;
   bool match(int i, int j) {
